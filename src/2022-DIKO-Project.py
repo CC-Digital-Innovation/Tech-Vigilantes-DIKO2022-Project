@@ -48,8 +48,6 @@ DELL_CLIENT_SECRET = CONFIG['Dell Info']['client-secret']
 DELL_TOKEN_URL = CONFIG['Dell Info']['token-url']
 DELL_BASE_WARRANTY_URL = CONFIG['Dell Info']['base-warranty-url']
 
-global_support = 0
-
 
 # Get all Cisco records from ServiceNow and return it as a dictionary. The
 # key is the Cisco device's serial number and the value is the record.
@@ -185,7 +183,6 @@ def get_snow_dell_records() -> dict[str, dict[str, str]]:
 # Given a dictionary of Cisco devices, update their ServiceNow records with
 # warranty and end-of-life information.
 def update_snow_cisco_warranties(snow_cisco_devs: dict[str, dict[str, str]]):
-    global global_support
     print('Updating all Cisco records in ServiceNow...')
 
     # Get a Cisco Support API token to establish a connection to the API.
@@ -235,10 +232,6 @@ def update_snow_cisco_warranties(snow_cisco_devs: dict[str, dict[str, str]]):
                                                        'Error Response')
                 continue
 
-            if cis_dev['is_covered'] == 'YES':
-                global global_support
-                global_support += 1
-
             # Update this record.
             update_snow_cisco_record(cis_dev,
                                      snow_cisco_devs[cis_dev['sr_no']])
@@ -274,7 +267,6 @@ def update_snow_cisco_warranties(snow_cisco_devs: dict[str, dict[str, str]]):
                 update_snow_cisco_eol(snow_cisco_devs[cis_dev_sn], eol_str)
 
     print('All Cisco records updated in ServiceNow!')
-    print('global is_covered: ' + str(global_support))
 
 
 # Given a dictionary of Dell devices, update their ServiceNow records with
@@ -665,6 +657,8 @@ def update_snow_dell_invalid_data(snow_dell_dev, invalid_reason):
             'name'] + ' has been updated to false!')
 
 
+# This function will update the provided record into ServiceNow with
+# the provided end-of-life string.
 def update_snow_cisco_eol(snow_cis_dev, eol_str):
     snow_cmdb_table = SNOW_CLIENT.resource(api_path=SNOW_CMDB_PATH)
     snow_update = {}
@@ -711,6 +705,8 @@ def update_snow_cisco_eol(snow_cis_dev, eol_str):
               '!')
 
 
+# This function will update the provided record into ServiceNow with no
+# end-of-life information.
 def update_snow_cisco_no_eol(snow_cis_dev):
     print('No EOL information found for Cisco device: ' + snow_cis_dev['name'])
     snow_cmdb_table = SNOW_CLIENT.resource(api_path=SNOW_CMDB_PATH)
@@ -762,8 +758,8 @@ if __name__ == '__main__':
     # Update Cisco devices in ServiceNow.
     update_snow_cisco_warranties(snow_cisco_records_dict)
 
-    # # Get Dell devices.
-    # snow_dell_records_dict = get_snow_dell_records()
-    #
-    # # Update Dell devices in ServiceNow.
-    # update_snow_dell_warranties(snow_dell_records_dict)
+    # Get Dell devices.
+    snow_dell_records_dict = get_snow_dell_records()
+
+    # Update Dell devices in ServiceNow.
+    update_snow_dell_warranties(snow_dell_records_dict)
