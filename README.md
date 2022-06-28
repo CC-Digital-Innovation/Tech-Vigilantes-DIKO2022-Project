@@ -1,4 +1,6 @@
-# Tech Vigilantes - 2022 Digital KickOff Project - Warranty / End of Life Support
+# Warranty / End of Life Support
+# Tech Vigilantes
+# 2022 Digital KickOff
 
 ## Summary
 The project's goal is to grab warranty, end of life, and support contract dates 
