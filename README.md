@@ -2,6 +2,8 @@
 # Tech Vigilantes
 # 2022 Digital KickOff
 
+Project Video: https://www.youtube.com/watch?v=RHOhHXcPZQc
+
 ## Summary
 The project's goal is to grab warranty, end of life, and support contract dates 
 for devices inside a ServiceNow instance. So far, it will only grab this 
