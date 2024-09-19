@@ -23,9 +23,7 @@ to keep their environments free of out-of-date hardware.
 
 ## Requirements
 - Python >= 3.10.4
-- configparser >= 5.2.0
-- oauthlib >= 3.2.0
-- requests-oauthlib >= 1.3.1
+- pysnow
 
 ## Usage
 - Edit the config file with ServiceNow instance information, Cisco API access
@@ -52,6 +50,10 @@ encounter any problems, please log an
 5. Submit a pull request ツ
 
 ## History
+- version 1.0.1 - 2024/09/19
+    - Basic cleanup
+
+
 - version 1.0.0 - 2022/06/28
     - (initial release)
 

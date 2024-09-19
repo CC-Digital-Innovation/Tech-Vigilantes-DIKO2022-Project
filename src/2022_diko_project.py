@@ -3,26 +3,16 @@ import itertools
 import os
 import unicodedata
 
+from oauthlib.oauth2 import BackendApplicationClient
 import pysnow
 from pysnow import exceptions
-from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
 
-# Module information.
-__author__ = 'Anthony Farina'
-__copyright__ = 'Copyright (C) 2022 Anthony Farina'
-__credits__ = ['Anthony Farina']
-__maintainer__ = 'Anthony Farina'
-__email__ = 'farinaanthony96@gmail.com'
-__license__ = 'MIT'
-__version__ = '1.0.0'
-__status__ = 'Released'
-
-
+# ====================== Environment / Global Variables =======================
 # Configuration file access variables.
 CONFIG = configparser.ConfigParser()
-CONFIG_PATH = '/../configs/2022-DIKO-Project-config.ini'
+CONFIG_PATH = '/../configs/2022_diko_project_config.ini'
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 CONFIG.read(SCRIPT_PATH + CONFIG_PATH)
 
@@ -49,6 +39,7 @@ DELL_TOKEN_URL = CONFIG['Dell Info']['token-url']
 DELL_BASE_WARRANTY_URL = CONFIG['Dell Info']['base-warranty-url']
 
 
+# ================================= Functions =================================
 # Get all Cisco records from ServiceNow and return it as a dictionary. The
 # key is the Cisco device's serial number and the value is the record.
 def get_snow_cisco_records() -> dict[str, dict[str, str]]:
